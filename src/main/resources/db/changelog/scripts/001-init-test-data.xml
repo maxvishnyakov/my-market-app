@@ -8,37 +8,37 @@
         <insert tableName="items">
             <column name="title" value="Мяч футбольный"/>
             <column name="description" value="Кожаный мяч размера 5"/>
-            <column name="img_path" value="/images/ball.jpg"/>
+            <column name="img_path" value="images/ball.jpg"/>
             <column name="price" valueNumeric="1500"/>
         </insert>
         <insert tableName="items">
             <column name="title" value="Кроссовки Nike"/>
             <column name="description" value="Беговые кроссовки 42 размера"/>
-            <column name="img_path" value="/images/nike.jpg"/>
+            <column name="img_path" value="images/nike.jpg"/>
             <column name="price" valueNumeric="7500"/>
         </insert>
         <insert tableName="items">
             <column name="title" value="Футболка хлопок"/>
             <column name="description" value="Белая футболка 100% хлопок"/>
-            <column name="img_path" value="/images/tshirt.jpg"/>
+            <column name="img_path" value="images/tshirt.jpg"/>
             <column name="price" valueNumeric="1200"/>
         </insert>
         <insert tableName="items">
             <column name="title" value="Гантели 5кг"/>
             <column name="description" value="Пара гантелей по 5 кг"/>
-            <column name="img_path" value="/images/dumbbell.jpg"/>
+            <column name="img_path" value="images/dumbbell.jpg"/>
             <column name="price" valueNumeric="2500"/>
         </insert>
         <insert tableName="items">
-            <column name="items" value="Скакалка"/>
+            <column name="title" value="Скакалка"/>
             <column name="description" value="Профессиональная скакалка"/>
-            <column name="img_path" value="/images/jumprope.jpg"/>
+            <column name="img_path" value="images/jumprope.jpg"/>
             <column name="price" valueNumeric="500"/>
         </insert>
         <insert tableName="items">
             <column name="title" value="Коврик для йоги"/>
             <column name="description" value="Толщина 6мм, антискользящий"/>
-            <column name="img_path" value="/images/mat.jpg"/>
+            <column name="img_path" value="images/mat.jpg"/>
             <column name="price" valueNumeric="1800"/>
         </insert>
     </changeSet>

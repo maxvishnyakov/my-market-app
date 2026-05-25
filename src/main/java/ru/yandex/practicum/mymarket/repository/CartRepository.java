@@ -18,8 +18,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Optional<Cart> findActiveCartItem(@Param("sessionId") String sessionId,
                                       @Param("itemId") Long productId);
 
-    @Query("SELECT DISTINCT c.orderId FROM Cart c WHERE c.sessionId = :sessionId AND c.isOrdered = true " +
-            "AND c.orderId IS NOT NULL ORDER BY c.orderDate DESC")
+    @Query("SELECT c.orderId FROM Cart c WHERE c.sessionId = :sessionId AND c.isOrdered = true " +
+            "AND c.orderId IS NOT NULL GROUP BY c.orderId ORDER BY MAX(c.orderDate) DESC")
     List<Long> findOrderIdsBySessionId(@Param("sessionId") String sessionId);
 
     @Query("SELECT c FROM Cart c WHERE c.sessionId = :sessionId AND c.isOrdered = true AND c.orderId = :orderId")
