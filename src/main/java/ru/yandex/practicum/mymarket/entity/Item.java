@@ -18,10 +18,6 @@ public class Item {
     private String imgPath;
     private Long price;
 
-    @Transient
-    private int count;
-
     public Item() {
-
     }
 }

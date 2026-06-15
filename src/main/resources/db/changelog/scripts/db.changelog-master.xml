@@ -8,5 +8,7 @@
     <include file="001-init-items-schema.xml" relativeToChangelogFile="true"/>
     <include file="001-init-cart-schema.xml" relativeToChangelogFile="true"/>
     <include file="001-init-test-data.xml" relativeToChangelogFile="true"/>
+    <include file="001-add-order-id-sequence.xml" relativeToChangelogFile="true"/>
+    <include file="001-init-orders-tables.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

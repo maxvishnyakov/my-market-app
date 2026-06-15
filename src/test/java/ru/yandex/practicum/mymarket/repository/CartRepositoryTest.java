@@ -25,81 +25,47 @@ class CartRepositoryTest {
     private ItemRepository itemRepository;
 
     @Test
-    void findActiveCartBySessionIdReturnsOnlyActiveLines() {
+    void findBySessionIdReturnsAllCartLines() {
         Long itemId = itemRepository.findAll().getFirst().getId();
 
-        Cart active = new Cart();
-        active.setSessionId(SESSION);
-        active.setItemId(itemId);
-        active.setQuantity(1);
-        active.setIsOrdered(false);
-        cartRepository.save(active);
+        Cart line1 = cartLine(SESSION, itemId, 1);
+        Cart line2 = cartLine("other-session", itemId, 2);
+        cartRepository.save(line1);
+        cartRepository.save(line2);
 
-        Cart ordered = new Cart();
-        ordered.setSessionId(SESSION);
-        ordered.setItemId(itemId);
-        ordered.setQuantity(1);
-        ordered.setIsOrdered(true);
-        ordered.setOrderId(100L);
-        cartRepository.save(ordered);
+        List<Cart> result = cartRepository.findBySessionId(SESSION);
 
-        List<Cart> activeLines = cartRepository.findActiveCartBySessionId(SESSION);
-
-        assertThat(activeLines).hasSize(1);
-        assertThat(activeLines.getFirst().getIsOrdered()).isFalse();
+        assertThat(result).hasSize(1);
+        assertThat(result.getFirst().getQuantity()).isEqualTo(1);
     }
 
     @Test
-    void findActiveCartItemReturnsLineForSessionAndItem() {
+    void findBySessionIdAndItemIdReturnsLine() {
         Long itemId = itemRepository.findAll().getFirst().getId();
 
-        Cart line = new Cart();
-        line.setSessionId(SESSION);
-        line.setItemId(itemId);
-        line.setQuantity(2);
-        line.setIsOrdered(false);
-        cartRepository.save(line);
+        cartRepository.save(cartLine(SESSION, itemId, 3));
 
-        assertThat(cartRepository.findActiveCartItem(SESSION, itemId))
+        assertThat(cartRepository.findBySessionIdAndItemId(SESSION, itemId))
                 .isPresent()
                 .get()
                 .extracting(Cart::getQuantity)
-                .isEqualTo(2);
+                .isEqualTo(3);
     }
 
     @Test
-    void findActiveCartItemEmptyWhenOrdered() {
+    void findBySessionIdAndItemIdEmptyForWrongSession() {
         Long itemId = itemRepository.findAll().getFirst().getId();
 
-        Cart ordered = new Cart();
-        ordered.setSessionId(SESSION);
-        ordered.setItemId(itemId);
-        ordered.setQuantity(1);
-        ordered.setIsOrdered(true);
-        ordered.setOrderId(200L);
-        cartRepository.save(ordered);
+        cartRepository.save(cartLine("other-session", itemId, 1));
 
-        assertThat(cartRepository.findActiveCartItem(SESSION, itemId)).isEmpty();
+        assertThat(cartRepository.findBySessionIdAndItemId(SESSION, itemId)).isEmpty();
     }
 
-    @Test
-    void findOrderIdsBySessionIdAndFindOrderByOrderId() {
-        Long itemId = itemRepository.findAll().getFirst().getId();
-
-        Cart line = new Cart();
-        line.setSessionId(SESSION);
-        line.setItemId(itemId);
-        line.setQuantity(1);
-        line.setIsOrdered(true);
-        line.setOrderId(300L);
-        line.setOrderDate(java.time.LocalDateTime.now());
-        cartRepository.save(line);
-
-        List<Long> orderIds = cartRepository.findOrderIdsBySessionId(SESSION);
-        List<Cart> orderLines = cartRepository.findOrderByOrderId(SESSION, 300L);
-
-        assertThat(orderIds).containsExactly(300L);
-        assertThat(orderLines).hasSize(1);
-        assertThat(orderLines.getFirst().getItemId()).isEqualTo(itemId);
+    private Cart cartLine(String sessionId, Long itemId, int quantity) {
+        Cart cart = new Cart();
+        cart.setSessionId(sessionId);
+        cart.setItemId(itemId);
+        cart.setQuantity(quantity);
+        return cart;
     }
 }

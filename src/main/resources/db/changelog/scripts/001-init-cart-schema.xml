@@ -25,6 +25,10 @@
             <column name="order_id" type="BIGINT"/>
             <column name="order_date" type="TIMESTAMP"/>
         </createTable>
+        <createIndex indexName="idx_cart_session_item" tableName="cart">
+            <column name="session_id"/>
+            <column name="item_id"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>
